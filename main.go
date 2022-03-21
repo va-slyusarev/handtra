@@ -15,12 +15,12 @@ type Opts struct {
 	TranslateCmd cmd.TranslateCommand `command:"translate"   description:"Перевод" long-description:"Перевод с использованием списка фраз"`
 	VersionCmd   cmd.VersionCommand   `command:"version" alias:"v" description:"Версия приложения"`
 
-	InputFile  string `short:"i" long:"in" required:"true" description:"Входящий файл" long-description:"Входящий файл для перевода"`
+	InputFile  string `short:"i" long:"in" default:"ru.js" required:"true" description:"Входящий файл" long-description:"Входящий файл для перевода"`
 	OutputFile string `short:"o" long:"out" default:"tr.js" required:"true" description:"Исходящий файл" long-description:"Исходящий файл. В зависимости от команды содержит список фраз для перевода, либо итоговый перевод"`
 	Expr       string `short:"e" long:"expr" default:".*" required:"true" description:"Регулярное выражение" long-description:"Регулярное выражение, которое определяет фразу для перевода в считываемом построчно файле"`
 }
 
-var revision = "develop"
+var version = "develop"
 
 func main() {
 	var opts Opts
@@ -28,7 +28,7 @@ func main() {
 	p.CommandHandler = func(command flags.Commander, args []string) error {
 		if ext, ok := command.(cmd.ExtCommander); ok {
 			ext.SetExt(cmd.ExtensionOpts{
-				AppRevision: revision,
+				AppRevision: version,
 				InputFile:   path.Join(".", opts.InputFile),
 				OutputFile:  path.Join(".", opts.OutputFile),
 				Expr:        opts.Expr,
